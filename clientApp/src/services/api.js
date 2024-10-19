@@ -19,9 +19,13 @@ class Api {
         return await this._http.get(path);
     }
 
+    async post(path, body) {
+        return await this._http.post(path, body);
+    }
+
 
 }
 
-const api = new Api();
+const api = new Api(true);
 
 export default api;

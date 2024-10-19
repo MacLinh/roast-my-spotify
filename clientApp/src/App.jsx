@@ -5,14 +5,23 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  const [message, setMessage] = useState('unchanged');
+  const [info, setInfo] = useState([]);
 
   const [tracks, setTracks] = useState([]);
 
   useEffect(() => {
-    api.get('hello')
-      .then(data => setMessage(data.message));
+    _init().catch(err => console.log(err));
   }, []);
+
+  async function _init() {
+    const _tracks = await spotifyService.getTracks();
+    setTracks(_tracks);
+    console.log(JSON.stringify(_tracks));
+    const trackInfos = _tracks.map(t => { return t.name.replaceAll('"', '') + ' by ' + t.artists[0].name; })
+    console.log(trackInfos);
+    const data = await api.post('analytics/emotions', { list: trackInfos });
+    setInfo(data);
+  }
 
   // useEffect(() => {
   //   spotifyService.getTracks()
@@ -22,12 +31,31 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          {message + ' : ' + JSON.stringify(tracks.length)}
-        </p>
-      </header>
+      <p>
+        <table>
+          <thead>
+            <tr>
+              <th>song</th>
+              <th>artist</th>
+              <th>emotion 1</th>
+              <th>emotion 2</th>
+            </tr>
+          </thead>
+          <tbody>
+            {info.map(v => {
+              return (
+                <tr>
+                  <td>{v.title}</td>
+                  <td>{v.artist}</td>
+                  <td>{v.emotions[0].emotion}</td>
+                  <td>{v.emotions[1].emotion}</td>
+                </tr>
+              )
+            })
+            }
+          </tbody>
+        </table>
+      </p>
     </div>
   );
 }

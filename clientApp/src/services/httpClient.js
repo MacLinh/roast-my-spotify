@@ -21,7 +21,7 @@ export class HttpClient {
 
     async post(path = '', body) {
         const result = await fetch(this._endpoint + '/' + path, {
-            method: "POST", headers: this._header , body: body
+            method: "POST", headers: { "Content-Type": "application/json" } , body: JSON.stringify(body)
         });
 
         return result.json();

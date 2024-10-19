@@ -10,14 +10,19 @@ analyticsController.get('/', async (req, res) => {
 });
 
 analyticsController.post('/emotions', async (req, res) => {
-  const songs = req.body
-  console.log('submitting songs:' + songs);
+  const songs = req.body.list
+  console.log('submitting songs:' + JSON.stringify(songs));
+
+  if(!songs || !songs.length) {
+    res.status(400).send({"message": "empty request"});
+    return;
+  }
 
   const prompt = promptService.getMultipleSongEmotions(songs);
 
   const result = await llmService.ask(prompt);
 
-  console.log(result);
+  console.log('llama says: ' + result);
   res.send(result);
 });
 

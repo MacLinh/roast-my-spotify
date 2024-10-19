@@ -24,17 +24,19 @@ class SpotifyService {
             redirectToAuthCodeFlow(clientId);
         } else {
             params.delete("code");
-            const accessToken = await getAccessToken(clientId, code);
-            this._token = accessToken;
+            const accessToken = await this.getAccessToken(clientId, code);
+            if (!!accessToken) {
+                this._token = accessToken;
+            }
             console.log(this);
             console.log(accessToken + ' : ' + this._token);
         }
     }
 
     async getProfile() {
-        if (!this._token) {
-            await this.login();
-        } 
+        // if (!this._token) {
+        //     await this.login();
+        // } 
 
         const result = await fetch("https://api.spotify.com/v1/me", {
             method: "GET", headers: { Authorization: `Bearer ${this._token}` }
@@ -44,15 +46,53 @@ class SpotifyService {
     } 
 
     async getTracks() {
-        if (!this._token) {
-            await this.login();
-        } 
+        // if (!this._token) {
+        //     await this.login();
+        // } 
+        try {
+            let token = localStorage.getItem('fooSpotify');
 
-        const result = await fetch("https://api.spotify.com/v1/me/top/tracks/", {
-            method: "GET", headers: { Authorization: `Bearer ${this._token}` }
-        });
+            const result = await fetch("https://api.spotify.com/v1/me/top/tracks/", {
+                method: "GET", headers: { Authorization: `Bearer ${token}` }
+            });
+
+            const responseObject = await result.json();
+            return responseObject.items;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async getAccessToken(clientId, code) {
+        let token = localStorage.getItem('fooSpotify');
     
-        return await result.json();
+        if (this._token) {
+            return this._token;
+        } else {
+    
+            const verifier = localStorage.getItem("verifier");
+    
+            const params = new URLSearchParams();
+            params.append("client_id", clientId);
+            params.append("grant_type", "authorization_code");
+            params.append("code", code);
+            params.append("redirect_uri", "http://localhost:3000/spotify");
+            params.append("code_verifier", verifier);
+    
+            const result = await fetch("https://accounts.spotify.com/api/token", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: params
+            }).catch(err => { console.log(err); });
+    
+            const { access_token } = await result.json();
+    
+            if (!!access_token) {
+                localStorage.setItem('fooSpotify', access_token);
+            }
+    
+            return access_token;
+        }
     }
 }
 
@@ -74,36 +114,7 @@ async function redirectToAuthCodeFlow(clientId) {
     document.location = `https://accounts.spotify.com/authorize?${params.toString()}`;
 }
 
-async function getAccessToken(clientId, code) {
-    let token = localStorage.getItem('fooSpotify');
 
-    if (token) {
-        return token;
-    }
-
-    const verifier = localStorage.getItem("verifier");
-
-    const params = new URLSearchParams();
-    params.append("client_id", clientId);
-    params.append("grant_type", "authorization_code");
-    params.append("code", code);
-    params.append("redirect_uri", "http://localhost:3000/spotify");
-    params.append("code_verifier", verifier);
-
-    const result = await fetch("https://accounts.spotify.com/api/token", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: params
-    }).catch(err => { throw err; });
-
-    const { access_token } = await result.json();
-
-    if (!!access_token) {
-        localStorage.setItem('fooSpotify', access_token);
-    }
-
-    return access_token;
-}
 
 function generateCodeVerifier(length) {
     let text = '';
@@ -130,5 +141,9 @@ function populateUI(profile) {
 }
 
 const spotifyService = new SpotifyService();
+
+if (!localStorage.getItem('fooSpotify')) {
+    spotifyService.login();
+}
 
 export default spotifyService;

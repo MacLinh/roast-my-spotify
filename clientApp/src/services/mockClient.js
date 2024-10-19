@@ -7,7 +7,7 @@ export class MockClient {
         },
         post: {
             'empty': {},
-            '/api/analytics/emotions': emotionsApiResponse1
+            'analytics/emotions': emotionsApiResponse1
         },
         put: {}
     }
@@ -22,7 +22,8 @@ export class MockClient {
         return Promise.resolve(this._dictionary.get[path]);
     }
 
-    async post(path) {
+    async post(path, ignore) {
+        console.log(path)
         if (!path) {
             path = 'empty';
         }

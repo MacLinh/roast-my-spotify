@@ -4,7 +4,7 @@ const EMOTIONS = ['happy', 'sad', 'nostalgic', 'hopeful', 'relaxing', 'energizin
 
 const INSTRUCTIONS = {
     "instructions": "Map each song to emotions. Include weights. Maximum of 2 emotions per song.",
-    "return format": "valid json array only",
+    "return format": "Valid json array only",
     "example return": JSON.stringify(example)
 }
 
@@ -25,6 +25,11 @@ class PromptService {
      */
     getMultipleSongEmotions(songs) {
         // this model understands json
+        console.log(JSON.stringify({
+            songs: songs,
+            emotions: EMOTIONS,
+            ...INSTRUCTIONS
+        }))
         return JSON.stringify({
             songs: songs,
             emotions: EMOTIONS,
