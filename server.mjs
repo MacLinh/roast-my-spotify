@@ -1,6 +1,7 @@
 // server.js
 import express from 'express';
 import path from 'path';
+import bodyParser from 'body-parser';
 import appRoutes from './src/routes/app.routes.mjs';
 
 
@@ -11,6 +12,9 @@ const __dirname = import.meta.dirname;
 
 // serve react app
 app.use(express.static(path.join(__dirname, 'clientApp/build')));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 for (let route of appRoutes) {
     app.use('/api/'+route.path, route.controller);
