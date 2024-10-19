@@ -2,6 +2,15 @@
 
 // TODO implement refresh token
 // the following code will fail once 1 hr has elapsed
+
+let redirect_uri = 'http://localhost:3000';
+
+if (window.location.href.includes('vercel')) {
+    redirect_uri = 'https://vercel.live/link/roast-my-spotify.vercel.app'
+}
+
+console.log(redirect_uri)
+
 class SpotifyService {
     _token= undefined;
 
@@ -76,7 +85,7 @@ class SpotifyService {
             params.append("client_id", clientId);
             params.append("grant_type", "authorization_code");
             params.append("code", code);
-            params.append("redirect_uri", "http://localhost:3000/spotify");
+            params.append("redirect_uri", redirect_uri);
             params.append("code_verifier", verifier);
     
             const result = await fetch("https://accounts.spotify.com/api/token", {
@@ -106,7 +115,7 @@ async function redirectToAuthCodeFlow(clientId) {
     const params = new URLSearchParams();
     params.append("client_id", clientId);
     params.append("response_type", "code");
-    params.append("redirect_uri", "http://localhost:3000/spotify");
+    params.append("redirect_uri", redirect_uri);
     params.append("scope", "user-read-private user-read-email user-top-read");
     params.append("code_challenge_method", "S256");
     params.append("code_challenge", challenge);
