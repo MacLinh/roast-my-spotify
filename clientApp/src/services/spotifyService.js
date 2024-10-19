@@ -3,10 +3,10 @@
 // TODO implement refresh token
 // the following code will fail once 1 hr has elapsed
 
-let redirect_uri = 'http://localhost:3000';
+let redirect_uri = 'https://vercel.live/link/roast-my-spotify.vercel.app'; 
 
-if (window.location.href.includes('vercel')) {
-    redirect_uri = 'https://vercel.live/link/roast-my-spotify.vercel.app'
+if (window.location.href.includes('localhost')) {
+    redirect_uri = 'http://localhost:3000';
 }
 
 console.log(redirect_uri)
