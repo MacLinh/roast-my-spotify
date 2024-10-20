@@ -25,34 +25,33 @@ function App() {
 
   async function _init() {
     const _tracks = await spotifyService.getTracks();
+
     setTracks(_tracks);
-    console.log(JSON.stringify(_tracks));
+
     const trackInfos = _tracks.map(t => { return t.name.replaceAll('"', '') + ' by ' + t.artists[0].name; })
-    console.log(trackInfos);
-    const data = await api.post('analytics/emotions', { list: trackInfos });
+
+    let data = await api.post('analytics/emotions', { list: trackInfos });
     setInfo(data);
-    console.log(data);
+
     setEmotionsChartData(analyzer.getEmotionOccurence(data));
+    data = await api.post('analytics/personality', { map: data });
+
+    console.log(data);
+    setPersonalityChartData(analyzer.getPersonalityScores(data));
   }
 
   return (
     <div className="App">
       <Carousel data-bs-theme="dark">
-
-        {/* begin emotions chart */}
         <Carousel.Item>
           <header>Your Top 50 Songs Emotion Distribution</header>
           <Radar data={emotionsChartData} />
         </Carousel.Item>
-        {/* end emotions chart */}
-
-        {/* begin genres chart */}
         <Carousel.Item>
         <header>Your Big 5 Personality Scores</header>
         <Bar data={personalityChartData}/>
         </Carousel.Item>
       </Carousel>
-
     </div>
   );
 }

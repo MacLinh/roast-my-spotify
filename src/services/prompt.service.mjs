@@ -56,7 +56,7 @@ const INSTRUCTIONS_EMOTIONS = {
 
 const INSTRUCTIONS_PERSONALITY = {
     "instructions": "quantify my big 5 personalit scores",
-    "return format": "Valid json only",
+    "return format": "Valid json only. No explanation",
     "example return": JSON.stringify(personality_example)
 }
 

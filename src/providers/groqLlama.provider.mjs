@@ -1,6 +1,6 @@
 import Groq from 'groq-sdk';
 
-const MODEL = 'llama-3.2-90b-vision-preview';
+const MODEL = 'llama-3.1-70b-versatile';
 
 const KEY = process.env.GROQ_API_KEY;
 
@@ -28,6 +28,7 @@ export default class GroqLlamaPovider {
                     content: prompt,
                 },
             ],
+            temperature: 0,
             model: MODEL,
         });
 

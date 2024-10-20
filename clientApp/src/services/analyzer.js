@@ -61,6 +61,23 @@ class Analyzer {
 
         });
     }
+
+    getPersonalityScores(data) {
+        console.log(data);
+
+        const results = [];
+
+        const scores = data["Big Five Personality Scores"];
+
+        for (let score of Object.keys(scores)) {
+            results.push({
+                "big5": score,
+                "Score": scores[score]
+            })
+        }
+
+        return results;
+    }
 }
 
 const analyzer = new Analyzer();
