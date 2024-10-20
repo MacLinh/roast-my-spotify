@@ -19,7 +19,7 @@ export class MockClient {
             path = 'empty';
         }
 
-        return Promise.resolve(this._dictionary.get[path]);
+        return await new Promise(resolve => setTimeout(resolve, 3000, this._dictionary.get[path]));
     }
 
     async post(path, ignore) {
@@ -28,7 +28,7 @@ export class MockClient {
             path = 'empty';
         }
 
-        return Promise.resolve(this._dictionary.post[path]);
+        return await new Promise(resolve => setTimeout(resolve, 3000, this._dictionary.post[path]));
     }
 }
 

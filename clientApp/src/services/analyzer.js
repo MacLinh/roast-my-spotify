@@ -28,14 +28,16 @@ class Analyzer {
                 if (!map[emotion.emotion]) {
                     map[emotion.emotion] = 0;
                 }
-                map[emotion.emotion]++;
+                map[emotion.emotion] += emotion.intensity;
             }
         }
+
+        console.log(JSON.stringify(map));
 
         // convert to format for nivo radar
         const emotions = [];
         for (let emotion of Object.keys(map)) {
-            emotions.push({ emotion, foo: map[emotion]})
+            emotions.push({ emotion, Weight: map[emotion]})
         }
 
         return emotions.sort((a,b) => { 
