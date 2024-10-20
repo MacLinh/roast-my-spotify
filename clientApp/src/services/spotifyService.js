@@ -30,11 +30,11 @@ class SpotifyService {
             try {
                 const result = await fetch("https://api.spotify.com/v1/me", {
                     method: "GET", headers: { Authorization: `Bearer ${token}` }
-                }).err(err => { throw err });
+                });
 
                 console.log('spotify authenticated successfully', result);
             } catch (err) {
-                console.log('spotify found a token but its expired');
+                console.log('spotify found a token but its expired', err);
 
                 const refreshToken = localStorage.getItem(REFRESH_TOKEN);
 
@@ -72,8 +72,6 @@ class SpotifyService {
     }
 
     async login() {
-        
-
         const params = new URLSearchParams(window.location.search);
         const code = params.get("code");
         if (!code) {
@@ -85,15 +83,15 @@ class SpotifyService {
     }
 
     async getProfile() {
-        // if (!this._token) {
-        //     await this.login();
-        // } 
+        // // if (!this._token) {
+        // //     await this.login();
+        // // } 
 
-        const result = await fetch("https://api.spotify.com/v1/me", {
-            method: "GET", headers: { Authorization: `Bearer ${this._token}` }
-        });
+        // const result = await fetch("https://api.spotify.com/v1/me", {
+        //     method: "GET", headers: { Authorization: `Bearer ${this._token}` }
+        // });
     
-        return await result.json();
+        // return await result.json();
     } 
 
     async getTracks() {
@@ -138,7 +136,7 @@ class SpotifyService {
                 client_id: CLIENT_ID
             }),
         }
-        const body = await fetch(url, payload).err(err=> {throw err});
+        const body = await fetch(url, payload);
         const response = await body.json();
 
         console.log('refreshed token: ', response)
@@ -149,7 +147,11 @@ class SpotifyService {
         }
     }
 
+    foo = 0;
+
     async loginWithCode(code) {
+        this.foo++;
+        console.log("FOO " + this.foo)
         const verifier = localStorage.getItem("verifier");
 
         const params = new URLSearchParams();
