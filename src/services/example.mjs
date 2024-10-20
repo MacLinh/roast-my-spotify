@@ -1,4 +1,4 @@
-const example = [
+const emotions_example = [
     {
         "title": "Somebody Loves You",
         "artist": "Aly & Fila",
@@ -95,4 +95,46 @@ const example = [
     }
 ]
 
-export default example;
+const personality_example = {
+    "Big Five Personality Scores": {
+        "Openness to Experience": 0.834,
+        "Conscientiousness": 0.685,
+        "Extraversion": 0.819,
+        "Agreeableness": 0.857,
+        "Neuroticism": 0.448
+    },
+    "Facets": {
+        "Openness": {
+            "Imagination": 0.912,
+            "Curiosity": 0.851,
+            "Artistic Appreciation": 0.815,
+            "Open-Mindedness": 0.802
+        },
+        "Conscientiousness": {
+            "Organization": 0.742,
+            "Self-Discipline": 0.719,
+            "Goal-Oriented": 0.695,
+            "Responsibility": 0.651
+        },
+        "Extraversion": {
+            "Sociability": 0.885,
+            "Enthusiasm": 0.842,
+            "Energy": 0.821,
+            "Assertiveness": 0.785
+        },
+        "Agreeableness": {
+            "Cooperation": 0.915,
+            "Empathy": 0.892,
+            "Kindness": 0.863,
+            "Trust": 0.829
+        },
+        "Neuroticism": {
+            "Emotional Stability": 0.552,
+            "Anxiety": 0.421,
+            "Anger": 0.395,
+            "Vulnerability": 0.462
+        }
+    }
+}
+
+export { emotions_example, personality_example };

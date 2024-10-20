@@ -7,7 +7,8 @@ export class MockClient {
         },
         post: {
             'empty': {},
-            'analytics/emotions': emotionsApiResponse1
+            'analytics/emotions': emotionsApiResponse1,
+            'analytics/personality': personalityApiResponse1
         },
         put: {}
     }
@@ -414,3 +415,45 @@ const emotionsApiResponse1 = [
       "dominant_emotion": "Love"
     }
   ]
+
+  const personalityApiResponse1 = {
+    "Big Five Personality Scores": {
+      "Openness to Experience": 0.761,
+      "Conscientiousness": 0.587,
+      "Extraversion": 0.849,
+      "Agreeableness": 0.881,
+      "Neuroticism": 0.604
+    },
+    "Facets": {
+      "Openness": {
+        "Imagination": 0.851,
+        "Curiosity": 0.794,
+        "Artistic Appreciation": 0.789,
+        "Open-Mindedness": 0.783
+      },
+      "Conscientiousness": {
+        "Organization": 0.649,
+        "Self-Discipline": 0.628,
+        "Goal-Oriented": 0.602,
+        "Responsibility": 0.58
+      },
+      "Extraversion": {
+        "Sociability": 0.923,
+        "Enthusiasm": 0.875,
+        "Energy": 0.842,
+        "Assertiveness": 0.813
+      },
+      "Agreeableness": {
+        "Cooperation": 0.911,
+        "Empathy": 0.887,
+        "Kindness": 0.858,
+        "Trust": 0.822
+      },
+      "Neuroticism": {
+        "Emotional Stability": 0.528,
+        "Anxiety": 0.469,
+        "Anger": 0.456,
+        "Vulnerability": 0.533
+      }
+    }
+  }

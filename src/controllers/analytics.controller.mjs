@@ -26,5 +26,22 @@ analyticsController.post('/emotions', async (req, res) => {
   res.send(result);
 });
 
+analyticsController.post('/personality', async (req, res) => {
+  const map = req.body.map
+  console.log('submitting personality map:' + JSON.stringify(map));
+
+  if(!map) {
+    res.status(400).send({"message": "empty request"});
+    return;
+  }
+
+  const prompt = promptService.getPersonalityFromMap(map);
+
+  const result = await llmService.ask(prompt);
+
+  console.log('llama says: ' + result);
+  res.send(result);
+});
+
 
 export default analyticsController;

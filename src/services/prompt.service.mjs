@@ -1,4 +1,4 @@
-import example from "./example.mjs";
+import { emotions_example, personality_example } from "./example.mjs";
 
 const EMOTIONS_IN_MUSIC = [
     {
@@ -48,10 +48,16 @@ const EMOTIONS = [
     ...EMOTIONS_IN_MUSIC[2].emotions
 ]
 
-const INSTRUCTIONS = {
+const INSTRUCTIONS_EMOTIONS = {
     "instructions": "Map each song to emotions. Include weights. 3 emotions per song.",
     "return format": "Valid json array only",
-    "example return": JSON.stringify(example)
+    "example return": JSON.stringify(emotions_example)
+}
+
+const INSTRUCTIONS_PERSONALITY = {
+    "instructions": "quantify my big 5 personalit scores",
+    "return format": "Valid json only",
+    "example return": JSON.stringify(personality_example)
 }
 
 class PromptService {
@@ -71,16 +77,24 @@ class PromptService {
      */
     getMultipleSongEmotions(songs) {
         // this model understands json
-        console.log(JSON.stringify({
+        const prompt = JSON.stringify({
             songs: songs,
             emotions: EMOTIONS,
-            ...INSTRUCTIONS
-        }))
-        return JSON.stringify({
-            songs: songs,
-            emotions: EMOTIONS,
-            ...INSTRUCTIONS
+            ...INSTRUCTIONS_EMOTIONS
         });
+
+        console.log(prompt)
+        return prompt;
+    }
+
+    getPersonalityFromMap(map) {
+        const prompt = JSON.stringify({
+            weights: map,
+            ...INSTRUCTIONS_PERSONALITY
+        });
+
+        console.log(prompt)
+        return prompt;
     }
 }
 

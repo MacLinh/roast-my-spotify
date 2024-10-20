@@ -1,6 +1,6 @@
 import Groq from 'groq-sdk';
 
-const MODEL = 'llama-3.1-70b-versatile';
+const MODEL = 'llama-3.2-90b-vision-preview';
 
 const KEY = process.env.GROQ_API_KEY;
 
