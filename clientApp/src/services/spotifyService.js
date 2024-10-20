@@ -24,6 +24,7 @@ class SpotifyService {
         })
     }
 
+    // TODO clean this up
     async checkLoginStatus() {
         const token = localStorage.getItem(ACCESS_TOKEN);
         if (token) {
@@ -31,6 +32,11 @@ class SpotifyService {
                 const result = await fetch("https://api.spotify.com/v1/me", {
                     method: "GET", headers: { Authorization: `Bearer ${token}` }
                 });
+
+                // why does this not error by default ???
+                if (result.status != 200) {
+                    throw 'refresh';
+                }
 
                 console.log('spotify authenticated successfully', result);
             } catch (err) {
@@ -98,7 +104,10 @@ class SpotifyService {
         try {
             let token = await this.getToken();
 
-            const result = await fetch("https://api.spotify.com/v1/me/top/tracks/", {
+            const params = new URLSearchParams();
+            params.append("limit", 50);
+
+            const result = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=50", {
                 method: "GET", headers: { Authorization: `Bearer ${token}` }
             });
 

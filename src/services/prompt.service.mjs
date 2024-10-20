@@ -1,9 +1,55 @@
 import example from "./example.mjs";
 
-const EMOTIONS = ['happy', 'sad', 'nostalgic', 'hopeful', 'relaxing', 'energizing']
+const EMOTIONS_IN_MUSIC = [
+    {
+        "category": "Positive Emotions",
+        "emotions": [
+            "Love",
+            "Happiness",
+            "Joy",
+            "Euphoria",
+            "Hope",
+            "Inspiration",
+            "Gratitude",
+            "Excitement"
+        ]
+    },
+    {
+        "category": "Negative Emotions",
+        "emotions": [
+            "Sadness",
+            "Anger",
+            "Fear",
+            "Anxiety",
+            "Despair",
+            "Loneliness",
+            "Heartbreak",
+            "Frustration"
+        ]
+    },
+    {
+        "category": "Complex Emotions",
+        "emotions": [
+            "Nostalgia",
+            "Longing",
+            "Melancholy",
+            "Bittersweetness",
+            "Empowerment",
+            "Liberation",
+            "Sentimentality",
+            "Wistfulness"
+        ]
+    }
+];
+
+const EMOTIONS = [
+    ...EMOTIONS_IN_MUSIC[0].emotions,
+    ...EMOTIONS_IN_MUSIC[1].emotions,
+    ...EMOTIONS_IN_MUSIC[2].emotions
+]
 
 const INSTRUCTIONS = {
-    "instructions": "Map each song to emotions. Include weights. Maximum of 2 emotions per song.",
+    "instructions": "Map each song to emotions. Include weights. 3 emotions per song.",
     "return format": "Valid json array only",
     "example return": JSON.stringify(example)
 }

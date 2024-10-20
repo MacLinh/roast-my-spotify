@@ -26,6 +26,6 @@ class Api {
 
 }
 
-const api = new Api(true);
+const api = new Api(false);
 
 export default api;
