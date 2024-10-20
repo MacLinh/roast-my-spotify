@@ -107,7 +107,7 @@ class SpotifyService {
             const params = new URLSearchParams();
             params.append("limit", 50);
 
-            const result = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=50", {
+            const result = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=25", {
                 method: "GET", headers: { Authorization: `Bearer ${token}` }
             });
 
