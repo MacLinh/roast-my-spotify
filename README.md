@@ -28,6 +28,10 @@ Install dependencies
 
 $ npm i
 
+set groq api key (you will need a groq account https://console.groq.com/keys)
+
+$export GROQ_API_KEY="your-api-key"
+
 Start the development server
 
 $ node server.mjs
