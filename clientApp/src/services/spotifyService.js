@@ -147,11 +147,7 @@ class SpotifyService {
         }
     }
 
-    foo = 0;
-
     async loginWithCode(code) {
-        this.foo++;
-        console.log("FOO " + this.foo)
         const verifier = localStorage.getItem("verifier");
 
         const params = new URLSearchParams();
