@@ -14,7 +14,7 @@ export class HttpClient {
     async get(path = '') {
         const result = await fetch(this._endpoint + '/' + path, {
             method: "GET", headers: this._header 
-        });
+        }).catch(err => console.log(err));
 
         return result.json();
     }
@@ -22,7 +22,7 @@ export class HttpClient {
     async post(path = '', body) {
         const result = await fetch(this._endpoint + '/' + path, {
             method: "POST", headers: { "Content-Type": "application/json" } , body: JSON.stringify(body)
-        });
+        }).catch(err => console.log(err));
 
         return result.json();
     }
