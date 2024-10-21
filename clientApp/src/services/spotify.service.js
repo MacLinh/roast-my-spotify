@@ -68,13 +68,14 @@ class SpotifyService {
     }
 
     async getToken() {
+        await this._loggedIn;
         const token = localStorage.getItem(ACCESS_TOKEN);
-        if(token) {
-            return token;
-        } else {
-            await this._loggedIn;
-            return await this.getToken();
+
+        if (!token) {
+            throw 'logged in with no token in localstorage';
         }
+
+        return token;
     }
 
     async login() {
@@ -145,7 +146,7 @@ class SpotifyService {
                 client_id: CLIENT_ID
             }),
         }
-        
+
         const result = await fetch(url, payload)
             .catch(err => { throw err });
 
@@ -153,13 +154,13 @@ class SpotifyService {
             throw 'refresh failed';
         }
 
-        const response = await result.json();
+        const { access_token, refresh_token } = await result.json();
 
-        console.log('refreshed token: ', response)
-
-        localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-        if (response.refreshToken) {
-            localStorage.setItem(REFRESH_TOKEN, response.refreshToken);
+        if (!!access_token) {
+            localStorage.setItem(ACCESS_TOKEN, access_token);
+        }
+        if (!!refresh_token) {
+            localStorage.setItem(REFRESH_TOKEN, refresh_token);
         }
     }
 

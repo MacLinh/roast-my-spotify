@@ -31,7 +31,6 @@ function App() {
     const trackInfos = _tracks.map(t => { return t.name.replaceAll('"', '') + ' by ' + t.artists[0].name; })
 
     let data = await analyticsService.analyzeEmotions(trackInfos, 10);
-    
     setInfo(data);
 
     setEmotionsChartData(analyzer.getEmotionOccurence(data));
