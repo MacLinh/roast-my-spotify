@@ -1,63 +1,15 @@
-import { emotions_example, personality_example } from "./example.mjs";
-
-const EMOTIONS_IN_MUSIC = [
-    {
-        "category": "Positive Emotions",
-        "emotions": [
-            "Love",
-            "Happiness",
-            "Joy",
-            "Euphoria",
-            "Hope",
-            "Inspiration",
-            "Gratitude",
-            "Excitement"
-        ]
-    },
-    {
-        "category": "Negative Emotions",
-        "emotions": [
-            "Sadness",
-            "Anger",
-            "Fear",
-            "Anxiety",
-            "Despair",
-            "Loneliness",
-            "Heartbreak",
-            "Frustration"
-        ]
-    },
-    {
-        "category": "Complex Emotions",
-        "emotions": [
-            "Nostalgia",
-            "Longing",
-            "Melancholy",
-            "Bittersweetness",
-            "Empowerment",
-            "Liberation",
-            "Sentimentality",
-            "Wistfulness"
-        ]
-    }
-];
-
-const EMOTIONS = [
-    ...EMOTIONS_IN_MUSIC[0].emotions,
-    ...EMOTIONS_IN_MUSIC[1].emotions,
-    ...EMOTIONS_IN_MUSIC[2].emotions
-]
+import { emotions_schema, personality_schema } from "./example.mjs";
 
 const INSTRUCTIONS_EMOTIONS = {
-    "instructions": "Map each song to emotions. Include weights. 4 emotions per song",
-    "return format": "Valid json array only",
-    "example return": JSON.stringify(emotions_example)
+    "instructions": "Give 4 dominant emotions per song",
+    "return format": "Valid json",
+    "schema": emotions_schema
 }
 
 const INSTRUCTIONS_PERSONALITY = {
-    "instructions": "quantify my big 5 personalit scores",
+    "instructions": "quantify my big 5 personality scores",
     "return format": "Valid json only. No explanation",
-    "example return": JSON.stringify(personality_example)
+    "schema": personality_schema
 }
 
 class PromptService {
@@ -78,8 +30,7 @@ class PromptService {
     getMultipleSongEmotions(songs) {
         // this model understands json
         const prompt = JSON.stringify({
-            songs: songs,
-            emotions: EMOTIONS,
+            songs,
             ...INSTRUCTIONS_EMOTIONS
         });
 

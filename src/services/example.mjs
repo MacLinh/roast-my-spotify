@@ -1,140 +1,278 @@
-const emotions_example = [
-    {
-        "title": "Somebody Loves You",
-        "artist": "Aly & Fila",
-        "emotions": [
-            {
-                "emotion": "Energizing",
-                "intensity": 0.9
-            },
-            {
-                "emotion": "Happy",
-                "intensity": 0.8
-            },
-            {
-                "emotion": "Hopeful",
-                "intensity": 0.3
-            }
-        ],
-        "dominant_emotion": "Energizing"
+const emotions_schema = {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Song Emotions",
+    "description": "A list of songs with their associated emotions",
+    "type": "array",
+    "items": {
+        "$ref": "#/definitions/Song"
     },
-    {
-        "title": "Wicked Games",
-        "artist": "The Weeknd",
-        "emotions": [
-            {
-                "emotion": "Sad",
-                "intensity": 0.8
-            },
-            {
-                "emotion": "Nostalgic",
-                "intensity": 0.6
+    "definitions": {
+        "Song": {
+            "type": "object",
+            "required": ["title", "artist", "emotions", "dominant_emotion"],
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "Song title"
+                },
+                "artist": {
+                    "type": "string",
+                    "description": "Song artist"
+                },
+                "emotions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Emotion"
+                    },
+                    "minItems": 1
+                },
+                "dominant_emotion": {
+                    "type": "string",
+                    "description": "Dominant emotion of the song"
+                }
             }
-        ],
-        "dominant_emotion": "Sad"
-    },
-    {
-        "title": "I Need a Doctor",
-        "artist": "Dr. Dre, Eminem, Skylar Grey",
-        "emotions": [
-            {
-                "emotion": "Energizing",
-                "intensity": 0.7
-            },
-            {
-                "emotion": "Hopeful",
-                "intensity": 0.5
-            }
-        ],
-        "dominant_emotion": "Energizing"
-    },
-    {
-        "title": "I'm Alive",
-        "artist": "Celine Dion",
-        "emotions": [
-            {
-                "emotion": "Hopeful",
-                "intensity": 0.9
-            },
-            {
-                "emotion": "Relaxing",
-                "intensity": 0.7
-            }
-        ],
-        "dominant_emotion": "Hopeful"
-    },
-    {
-        "title": "Fell In Me",
-        "artist": "JohnnyDice",
-        "emotions": [
-            {
-                "emotion": "Sad",
-                "intensity": 0.8
-            },
-            {
-                "emotion": "Nostalgic",
-                "intensity": 0.4
-            }
-        ],
-        "dominant_emotion": "Sad"
-    },
-    {
-        "title": "Into the West",
-        "artist": "Annie Lennox",
-        "emotions": [
-            {
-                "emotion": "Hopeful",
-                "intensity": 0.7
-            },
-            {
-                "emotion": "Relaxing",
-                "intensity": 0.6
-            }
-        ],
-        "dominant_emotion": "Hopeful"
-    }
-]
-
-const personality_example = {
-    "Big Five Personality Scores": {
-        "Openness to Experience": 0.834,
-        "Conscientiousness": 0.685,
-        "Extraversion": 0.819,
-        "Agreeableness": 0.857,
-        "Neuroticism": 0.448
-    },
-    "Facets": {
-        "Openness": {
-            "Imagination": 0.912,
-            "Curiosity": 0.851,
-            "Artistic Appreciation": 0.815,
-            "Open-Mindedness": 0.802
         },
-        "Conscientiousness": {
-            "Organization": 0.742,
-            "Self-Discipline": 0.719,
-            "Goal-Oriented": 0.695,
-            "Responsibility": 0.651
-        },
-        "Extraversion": {
-            "Sociability": 0.885,
-            "Enthusiasm": 0.842,
-            "Energy": 0.821,
-            "Assertiveness": 0.785
-        },
-        "Agreeableness": {
-            "Cooperation": 0.915,
-            "Empathy": 0.892,
-            "Kindness": 0.863,
-            "Trust": 0.829
-        },
-        "Neuroticism": {
-            "Emotional Stability": 0.552,
-            "Anxiety": 0.421,
-            "Anger": 0.395,
-            "Vulnerability": 0.462
+        "Emotion": {
+            "type": "object",
+            "required": ["emotion", "intensity"],
+            "properties": {
+                "emotion": {
+                    "type": "string",
+                    "enum": ["Love", "Happiness", "Joy", "Euphoria", "Hope",
+                        "Inspiration", "Gratitude", "Excitement", "Sadness", "Anger",
+                        "Fear", "Anxiety", "Despair", "Loneliness", "Heartbreak",
+                        "Frustration", "Nostalgia", "Longing", "Melancholy",
+                        "Bittersweetness", "Empowerment", "Liberation",
+                        "Sentimentality", "Wistfulness"]
+                },
+                "intensity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
         }
     }
 }
 
-export { emotions_example, personality_example };
+const personality_schema = {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Big Five Personality Assessment",
+    "description": "A Big Five personality assessment result",
+    "type": "object",
+    "required": [
+        "Big Five Personality Scores",
+        "Facets"
+    ],
+    "properties": {
+        "Big Five Personality Scores": {
+            "type": "object",
+            "required": [
+                "Openness to Experience",
+                "Conscientiousness",
+                "Extraversion",
+                "Agreeableness",
+                "Neuroticism"
+            ],
+            "properties": {
+                "Openness to Experience": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "Conscientiousness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "Extraversion": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "Agreeableness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "Neuroticism": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        }
+    }
+}
+
+const facets = {
+    "Facets": {
+        "type": "object",
+        "required": [
+            "Openness",
+            "Conscientiousness",
+            "Extraversion",
+            "Agreeableness",
+            "Neuroticism"
+        ],
+        "properties": {
+            "Openness": {
+                "type": "object",
+                "required": [
+                    "Imagination",
+                    "Curiosity",
+                    "Artistic Appreciation",
+                    "Open-Mindedness"
+                ],
+                "properties": {
+                    "Imagination": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "Curiosity": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "Artistic Appreciation": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "Open-Mindedness": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    }
+                }
+            },
+            "Conscientiousness": {
+                "type": "object",
+                "required": [
+                    "Organization",
+                    "Self-Discipline",
+                    "Goal-Oriented",
+                    "Responsibility"
+                ],
+                "properties": {
+                    "Organization": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "Self-Discipline": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "Goal-Oriented": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "Responsibility": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    }
+                }
+            },
+            "Extraversion": {
+                "type": "object",
+                "required": [
+                    "Sociability",
+                    "Enthusiasm",
+                    "Energy",
+                    "Assertiveness"
+                ],
+                "properties": {
+                    "Sociability": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "Enthusiasm": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "Energy": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "Assertiveness": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    }
+                }
+            },
+            "Agreeableness": {
+                "type": "object",
+                "required": [
+                    "Cooperation",
+                    "Empathy",
+                    "Kindness",
+                    "Trust"
+                ],
+                "properties": {
+                    "Cooperation": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "Empathy": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "Kindness": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "Trust": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    }
+                }
+            },
+            "Neuroticism": {
+                "type": "object",
+                "required": [
+                    "Emotional Stability",
+                    "Anxiety",
+                    "Anger",
+                    "Vulnerability"
+                ],
+                "properties": {
+                    "Emotional Stability": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "Anxiety": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "Anger": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "Vulnerability": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    }
+                }
+            }
+        }
+    }
+}
+
+export { emotions_schema, personality_schema };

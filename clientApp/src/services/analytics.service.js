@@ -16,15 +16,23 @@ class AnalyticsService {
             throw 'Batch size must be a multiple of array length';
         }
 
+        const trackInfos = songs.map(t => {
+            return t.name.replaceAll('"', '') + ' by ' + t.artists[0].name;
+        });
+
         let result = [];
 
         for (let i = 0; i < total/batchSize; i++) {
-            const subArray = songs.slice(i*batchSize,i*batchSize + batchSize);
+            const subArray = trackInfos.slice(i*batchSize,i*batchSize + batchSize);
             const subResult = await api.post('analytics/emotions', { list: subArray });
             result = [...result, ...subResult];
         }
 
         return result;
+    }
+
+    async analyzePersonality(map) {
+        return await api.post('analytics/personality', { map });
     }
 }
 

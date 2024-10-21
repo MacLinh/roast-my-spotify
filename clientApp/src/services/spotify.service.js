@@ -1,8 +1,5 @@
 /* eslint-disable */ 
 
-// TODO implement refresh token
-// the following code will fail once 1 hr has elapsed
-
 let redirect_uri = 'https://roast-my-spotify.vercel.app'; 
 
 if (window.location.href.includes('localhost')) {
@@ -94,22 +91,29 @@ class SpotifyService {
     }
 
     async getProfile() {
-        // // if (!this._token) {
-        // //     await this.login();
-        // // } 
+        try {
+            const token = await this.getToken();
 
-        // const result = await fetch("https://api.spotify.com/v1/me", {
-        //     method: "GET", headers: { Authorization: `Bearer ${this._token}` }
-        // });
-    
-        // return await result.json();
+            const result = await fetch("https://api.spotify.com/v1/me", {
+                method: "GET", headers: { Authorization: `Bearer ${token}` }
+            });
+
+            const responseObject = await result.json();
+
+            return responseObject;
+        } catch (err) {
+            console.log(err);
+            throw err;
+        }
     } 
 
-    async getTracks() {
+    async getTracks(limit=20,time_range='medium_term') {
         try {
-            let token = await this.getToken();
+            const token = await this.getToken();
 
-            const result = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=20", {
+            const url = `https://api.spotify.com/v1/me/top/tracks?limit=${limit}&time_range=${time_range}`
+
+            const result = await fetch(url, {
                 method: "GET", headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -123,18 +127,6 @@ class SpotifyService {
         } catch (err) {
             console.log(err);
             throw err;
-        }
-    }
-
-    /**
-     * attempt function and login again once if it doesn't work
-     * @param {*} fn 
-     */
-    async _retry(fn) {
-        try {
-            return await fn();
-        } catch (err) {
-            await this.login
         }
     }
 
@@ -196,7 +188,6 @@ class SpotifyService {
     }
 }
 
-
 async function redirectToAuthCodeFlow() {
     const verifier = generateCodeVerifier(128);
     const challenge = await generateCodeChallenge(verifier);
@@ -213,8 +204,6 @@ async function redirectToAuthCodeFlow() {
 
     document.location = `https://accounts.spotify.com/authorize?${params.toString()}`;
 }
-
-
 
 function generateCodeVerifier(length) {
     let text = '';
