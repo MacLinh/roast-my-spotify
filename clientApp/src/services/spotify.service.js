@@ -105,18 +105,20 @@ class SpotifyService {
         try {
             let token = await this.getToken();
 
-            const params = new URLSearchParams();
-            params.append("limit", 50);
-
             const result = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=20", {
                 method: "GET", headers: { Authorization: `Bearer ${token}` }
             });
 
+            console.log('Spotify: get tracks result ', result.status, result)
+
             const responseObject = await result.json();
+
+            console.log('Spotify: get tracks json ', responseObject)
+
             return responseObject.items;
         } catch (err) {
             console.log(err);
-            return [];
+            throw err;
         }
     }
 
