@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import spotifyService from './services/spotifyService';
+import spotifyService from './services/spotify.service';
 import api from './services/api';
+import analyticsService from './services/analytics.service';
 import analyzer from './services/analyzer';
-import { ResponsiveRadar } from '@nivo/radar'
 import Carousel from 'react-bootstrap/Carousel';
 import Radar from './components/radar';
 import Bar from './components/bar';
@@ -30,7 +30,8 @@ function App() {
 
     const trackInfos = _tracks.map(t => { return t.name.replaceAll('"', '') + ' by ' + t.artists[0].name; })
 
-    let data = await api.post('analytics/emotions', { list: trackInfos });
+    let data = await analyticsService.analyzeEmotions(trackInfos, 10);
+    
     setInfo(data);
 
     setEmotionsChartData(analyzer.getEmotionOccurence(data));

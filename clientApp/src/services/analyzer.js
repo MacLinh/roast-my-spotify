@@ -1,23 +1,28 @@
-const POSITIVE = [
-    "Love",
-    "Happiness",
-    "Joy",
-    "Euphoria",
-    "Hope",
-    "Inspiration",
-    "Gratitude",
-    "Excitement"
-]
-const NEGATIVE = [
-    "Sadness",
-    "Anger",
-    "Fear",
-    "Anxiety",
-    "Despair",
-    "Loneliness",
-    "Heartbreak",
-    "Frustration"
-]
+const POSITIVE_EMOTIONS = {
+    "Love": true,
+    "Happiness": true,
+    "Joy": true,
+    "Euphoria": true,
+    "Hope": true,
+    "Inspiration": true,
+    "Gratitude": true,
+    "Excitement": true,
+    "Empowerment": true
+}
+const NEGATIVE_EMOTIONS = {
+    "Sadness": true,
+    "Anger": true,
+    "Fear": true,
+    "Anxiety": true,
+    "Despair": true,
+    "Loneliness": true,
+    "Heartbreak": true,
+    "Frustration": true,
+    "Wistfulness": true,
+    "Melancholy": true,
+    "Longing": true
+}
+
 class Analyzer {
     getEmotionOccurence(data) {
         const map = {}
@@ -40,26 +45,12 @@ class Analyzer {
             emotions.push({ emotion, Weight: map[emotion]})
         }
 
-        return emotions.sort((a,b) => { 
-            if (POSITIVE.includes(a.emotion)) {
-                a = 1;
-            } else if (NEGATIVE.includes(a.emotion)) {
-                a = -1;
-            } else {
-                a = 0;
-            }
-
-            if (POSITIVE.includes(b.emotion)) {
-                b = 1;
-            } else if (NEGATIVE.includes(b.emotion)) {
-                b = -1;
-            } else {
-                b = 0;
-            }
-
-            return b-a;
-
-        });
+        // group related emotions together
+        // leading with positive emotions
+        return emotions.sort((a, b) =>
+            (POSITIVE_EMOTIONS[b.emotion] ? 1 : NEGATIVE_EMOTIONS[b.emotion] ? -1 : 0) -
+            (POSITIVE_EMOTIONS[a.emotion] ? 1 : NEGATIVE_EMOTIONS[a.emotion] ? -1 : 0)
+        );
     }
 
     getPersonalityScores(data) {
