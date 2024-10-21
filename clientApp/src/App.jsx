@@ -32,8 +32,9 @@ function App() {
 
     let data = await analyticsService.analyzeEmotions(trackInfos, 10);
     setInfo(data);
+    data = analyzer.getEmotionOccurence(data);
 
-    setEmotionsChartData(analyzer.getEmotionOccurence(data));
+    setEmotionsChartData(data);
     data = await api.post('analytics/personality', { map: data });
 
     console.log(data);

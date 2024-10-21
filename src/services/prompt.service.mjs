@@ -49,7 +49,7 @@ const EMOTIONS = [
 ]
 
 const INSTRUCTIONS_EMOTIONS = {
-    "instructions": "Map each song to emotions. Include weights. 3 emotions per song.",
+    "instructions": "Map each song to emotions. Include weights. 4 emotions per song",
     "return format": "Valid json array only",
     "example return": JSON.stringify(emotions_example)
 }

@@ -39,6 +39,10 @@ class SpotifyService {
                 }
 
                 console.log('spotify authenticated successfully', result);
+
+                const profile = await result.json();
+
+                console.log('spotify profile', profile)
             } catch (err) {
                 console.log('spotify found a token but its expired', err);
 
@@ -193,7 +197,7 @@ class SpotifyService {
 }
 
 
-async function redirectToAuthCodeFlow(clientId) {
+async function redirectToAuthCodeFlow() {
     const verifier = generateCodeVerifier(128);
     const challenge = await generateCodeChallenge(verifier);
 
