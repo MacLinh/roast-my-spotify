@@ -145,8 +145,15 @@ class SpotifyService {
                 client_id: CLIENT_ID
             }),
         }
-        const body = await fetch(url, payload);
-        const response = await body.json();
+        
+        const result = await fetch(url, payload)
+            .catch(err => { throw err });
+
+        if (result.status != 200) {
+            throw 'refresh failed';
+        }
+
+        const response = await result.json();
 
         console.log('refreshed token: ', response)
 
