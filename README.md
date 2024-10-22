@@ -11,7 +11,7 @@ Until the app gets approved by the Spotify team (which can take up to 6 weeks) o
 
 
 
-**To build client app**
+## To build client app
 
 In clientApp directory
 
@@ -26,7 +26,7 @@ build
 
 
 
-**To run server**
+## To run server
 
 In root directory
 
@@ -44,7 +44,9 @@ Start the development server
 
 *Make sure client app is already built as this will serve it's static files
 
-**To run front end only**
+
+## To run front end only
+
 When implementing UI features it may be useful to host the client app only to take advantage of React hot loading.
 
 In clientApp directory
@@ -56,6 +58,6 @@ Will need to build static files to integrate with the backend
 
     npm run build
 
-**Deployment**
+## Deployment
 
 Pushing to master will automatically trigger a vercel job to deploy to production link. Currently it will not build the client app so make sure to build the client app's static files and push the build directory if any UI changes are involved.
