@@ -29,6 +29,8 @@ export class HttpClient {
         switch (result.status) {
             case 500:
                 throw 'Internal Server Error';
+            case 504:
+                throw 'There are too many requests at the moment please try again in a few minutes'
             case 404:
                 throw 'Backend is not running. Odds are you are running the client app standalone and did not set to use Mock server';
             default: {}

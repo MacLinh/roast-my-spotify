@@ -23,7 +23,7 @@ function App() {
   useEffect(() => {
     _load().catch(err => {
       if (typeof err !== 'string') {
-        err = JSON.parse(err);
+        err = JSON.stringify(err);
       }
       setError(err)
     });

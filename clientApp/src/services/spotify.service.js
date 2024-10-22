@@ -120,7 +120,10 @@ class SpotifyService {
             switch(result.status) {
                 case 401:
                     throw 'Login failed. Try clearing site data and reloading for a fresh login';
-                case 403:
+
+                // note this can also mean we used an endpoint the app did not request permission for in scopes
+                // I did not include it in the error message because this is 100% a developer mistake and should never be in prod
+                case 403: 
                     throw 'This application is still in development and only resgistered users can use it until it gets approved by Spotify (https://developer.spotify.com/documentation/web-api/concepts/quota-modes). If you would like me to enable your account please email maclinhpham@yahoo.ca '
                 case 500:
                     throw 'Spotify internal server error'
