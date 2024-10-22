@@ -117,6 +117,16 @@ class SpotifyService {
                 method: "GET", headers: { Authorization: `Bearer ${token}` }
             });
 
+            switch(result.status) {
+                case 401:
+                    throw 'Login failed. Try clearing site data and reloading for a fresh login';
+                case 403:
+                    throw 'This application is still in development and only resgistered users can use it until it gets approved by Spotify (https://developer.spotify.com/documentation/web-api/concepts/quota-modes). If you would like me to enable your account please email maclinhpham@yahoo.ca '
+                case 500:
+                    throw 'Spotify internal server error'
+                default: {}
+            }
+
             console.log('Spotify: get tracks result ', result.status, result)
 
             const responseObject = await result.json();

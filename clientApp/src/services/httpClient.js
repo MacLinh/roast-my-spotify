@@ -22,7 +22,17 @@ export class HttpClient {
     async post(path = '', body) {
         const result = await fetch(this._endpoint + '/' + path, {
             method: "POST", headers: { "Content-Type": "application/json" } , body: JSON.stringify(body)
-        }).catch(err => console.log(err));
+        }).catch(err => { 
+            throw err 
+        });
+
+        switch (result.status) {
+            case 500:
+                throw 'Internal Server Error';
+            case 404:
+                throw 'Backend is not running. Odds are you are running the client app standalone and did not set to use Mock server';
+            default: {}
+        }
 
         return result.json();
     }

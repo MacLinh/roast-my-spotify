@@ -24,7 +24,10 @@ class AnalyticsService {
 
         for (let i = 0; i < total/batchSize; i++) {
             const subArray = trackInfos.slice(i*batchSize,i*batchSize + batchSize);
-            const subResult = await api.post('analytics/emotions', { list: subArray });
+            const subResult = await api.post('analytics/emotions', { list: subArray })
+            .catch(err => { 
+                throw err 
+            });
             result = [...result, ...subResult];
         }
 

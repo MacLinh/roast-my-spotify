@@ -5,6 +5,7 @@ import analyzer from './services/analyzer';
 import Carousel from 'react-bootstrap/Carousel';
 import Radar from './components/radar';
 import Bar from './components/bar';
+import Card from 'react-bootstrap/Card';
 
 
 import './App.css';
@@ -17,8 +18,15 @@ function App() {
 
   const [personalityChartData, setPersonalityChartData] = useState([]);
 
+  const [error, setError] = useState('');
+
   useEffect(() => {
-    _load().catch(err => console.log(err));
+    _load().catch(err => {
+      if (typeof err !== 'string') {
+        err = JSON.parse(err);
+      }
+      setError(err)
+    });
   }, []);
 
   async function _load() {
@@ -42,20 +50,32 @@ function App() {
 
   return (
     <div className="App">
-      <Carousel data-bs-theme="dark">
-        <Carousel.Item>
-          <header>Your Recent Songs Emotion Distribution</header>
-          <Radar data={emotionsChartDataRecent} />
-        </Carousel.Item>
-        <Carousel.Item>
-          <header>Your All Time Songs Emotion Distribution</header>
-          <Radar data={emotionsChartDataAlltime} />
-        </Carousel.Item>
-        <Carousel.Item>
-        <header>Your Big 5 Personality Scores</header>
-        <Bar data={personalityChartData}/>
-        </Carousel.Item>
-      </Carousel>
+      {
+        error ?
+          <Card>
+            <Card.Body>
+              <Card.Title>Error</Card.Title>
+              <Card.Text>
+                { error }
+              </Card.Text>
+            </Card.Body>
+          </Card>
+          :
+        <Carousel data-bs-theme="dark">
+          <Carousel.Item>
+            <header>Your Recent Songs Emotion Distribution</header>
+            <Radar data={emotionsChartDataRecent} />
+          </Carousel.Item>
+          <Carousel.Item>
+            <header>Your All Time Songs Emotion Distribution</header>
+            <Radar data={emotionsChartDataAlltime} />
+          </Carousel.Item>
+          <Carousel.Item>
+            <header>Your Big 5 Personality Scores</header>
+            <Bar data={personalityChartData} />
+          </Carousel.Item>
+        </Carousel>
+      }
     </div>
   );
 }
