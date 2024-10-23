@@ -5,7 +5,7 @@
 
 **Work in progress...**
 
-The link will display an error until this app gets approved by the Spotify team ([see this link](https://developer.spotify.com/documentation/web-api/concepts/quota-modes)).
+The link will display an error after login until this app gets approved by the Spotify team ([see this link](https://developer.spotify.com/documentation/web-api/concepts/quota-modes)).
 
 TLDR: Until the app gets approved (which can take up to 6 weeks) only registered users can use the app (Spotify blocks all api calls). Contact me if you would like your Spotify account to be added as a tester.
 
