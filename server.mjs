@@ -3,11 +3,16 @@ import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
 import appRoutes from './src/routes/app.routes.mjs';
+import * as url from 'url';
 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const __dirname = import.meta.dirname;
+let __dirname = import.meta.dirname;
+
+if(!__dirname) { 
+    __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+}
 
 
 // serve react app
